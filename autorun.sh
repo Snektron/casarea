@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+set -eu
+
 # Check arguments
 if [ -z "$1" ]; then
     echo No ip configuration file given

@@ -2,6 +2,8 @@
 # This script downloads and converts required datasets
 # It should be called from casarea.sh
 
+set -eu
+
 # Fetch datasets
 BASE_URL="http://data.law.di.unimi.it/webdata"
 mkdir -p "$CASAREA_DATADIR/datasets/"
@@ -26,9 +28,20 @@ done
 WEBGRAPH_EXTRACT="$CASAREA_ROOT/webgraph-extract/build/install/webgraph-extract/bin/webgraph-extract"
 
 # Extract the edge list
+PIDS=""
 for DATASET in $CASAREA_TEST_GRAPHS; do
     if [ ! -f "$CASAREA_DATADIR/datasets/$DATASET.edges" ]; then
         echo "Generating $DATASET.edges..."
-        prun -v -np 1 -1 $WEBGRAPH_EXTRACT "$CASAREA_DATADIR/datasets/$DATASET" "$CASAREA_DATADIR/datasets/$DATASET.edges"
+        prun -v -np 1 -1 \
+            $WEBGRAPH_EXTRACT \
+                "$CASAREA_DATADIR/datasets/$DATASET" \
+                "$CASAREA_DATADIR/datasets/$DATASET.edges" \
+            &
+        PIDS="$PIDS $!"
     fi
 done
+
+if [ ! -z "$PIDS" ]; then
+    echo "Waiting for generation processes to finish..."
+    wait $PIDS
+fi

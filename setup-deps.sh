@@ -2,6 +2,8 @@
 # This script downloads required software
 # It should be called from casarea.sh
 
+set -eu
+
 CASAREA_JAVA_URL="https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz"
 CASAREA_GRADLE_URL="https://downloads.gradle-dn.com/distributions/gradle-6.7-bin.zip"
 CASAREA_SPARK_URL="https://downloads.apache.org/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz"
