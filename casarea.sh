@@ -37,7 +37,10 @@ export CASAREA_TEST_GRAPHS=$TEST_GRAPHS
 
 # Set up the system
 # Download software (skips existing files)
-source $CASAREA_ROOT/setup-deps.sh
+$CASAREA_ROOT/setup-deps.sh
+
+# Set java path
+export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
 
 # Download datasets (skips existing files)
 $CASAREA_ROOT/download-datasets.sh

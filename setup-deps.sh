@@ -19,8 +19,6 @@ if [ ! -d $CASAREA_DATADIR/software/openjdk ]; then
         --strip-components 1
     rm "$CASAREA_DATADIR/software/openjdk.tar.gz"
 fi
-# Setup java environmnent variables
-export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
 
 # Download and extract gradle if required
 if [ ! -d $CASAREA_DATADIR/software/gradle ]; then
