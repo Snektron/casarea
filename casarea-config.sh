@@ -1,10 +1,13 @@
 # The root of the directory where static data (software, datasets, etc) should be stored
-DATADIR="$CASAREA_ROOT/data"
+export CASAREA_DATADIR=$(realpath data)
 
 # The root of the directory where temporary information should be stored during
 # the program runtime
-WORKDIR="$CASAREA_ROOT/work"
+export CASAREA_WORKDIR=$(realpath work)
 
 # The graphs which the tests should be performed on. (useful to test with smaller
 # graphs). These graphs are downloaded from http://data.law.it.unimi.it/.
-TEST_GRAPHS="uk-2007-05 twitter-2010"
+export CASAREA_TEST_GRAPHS="uk-2007-05 twitter-2010"
+
+# Not used by casarea.sh but still useful to put here
+export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
