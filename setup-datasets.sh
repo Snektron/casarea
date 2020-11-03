@@ -18,6 +18,7 @@ done
 
 # Convert to edges format
 # This is a binary format, where each edge consists of 2 uint32_t's of id's
+# The edge list is split up into multiple files so that it may be parallelized more easily
 
 # Compile the programs
 "$CASAREA_DATADIR/software/gradle/bin/gradle" \
@@ -30,12 +31,13 @@ WEBGRAPH_EXTRACT="$CASAREA_ROOT/webgraph-extract/build/install/webgraph-extract/
 # Extract the edge list
 PIDS=""
 for DATASET in $CASAREA_TEST_GRAPHS; do
-    if [ ! -f "$CASAREA_DATADIR/datasets/$DATASET.edges" ]; then
+    if find "$CASAREA_DATADIR/datasets" -name '*[0-9]*[0-9].edges' -exec false {} +; then
         echo "Generating $DATASET.edges..."
         prun -v -np 1 -1 \
             $WEBGRAPH_EXTRACT \
                 "$CASAREA_DATADIR/datasets/$DATASET" \
                 "$CASAREA_DATADIR/datasets/$DATASET.edges" \
+                10000000 \
             &
         PIDS="$PIDS $!"
     fi
