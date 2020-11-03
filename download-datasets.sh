@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-# This file downloads required datasets
+# This script downloads required datasets
 # It should be called from casarea.sh
 
 BASE_URL="http://data.law.di.unimi.it/webdata"

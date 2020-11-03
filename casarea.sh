@@ -3,7 +3,7 @@
 
 # Fail whenever an executed command fails or when a non-existing
 # variable is expanded
-set -eu
+set -e -u
 
 # Check argument count
 if [ "$#" -lt 1 ]; then
@@ -36,5 +36,8 @@ export CASAREA_WORKDIR=$WORKDIR
 export CASAREA_TEST_GRAPHS=$TEST_GRAPHS
 
 # Set up the system
+# Download software (skips existing files)
+$CASAREA_ROOT/setup-deps.sh
+
 # Download datasets (skips existing files)
 $CASAREA_ROOT/download-datasets.sh
