@@ -16,7 +16,7 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 
 # Get and source the config file the user passed via the arguments
 # The configuration file should contain the following variables:
-# - DATA: The root of the directory where static data (software, datasets,
+# - DATADIR: The root of the directory where static data (software, datasets,
 #   etc) should be stored
 # - WORKDIR: The root of the directory where temporary information should
 #   be stored during the program runtime
@@ -31,7 +31,7 @@ source $CASAREA_CONFIG_FILE
 # Re-export the variables set in the configuration file
 # This has a double working: both checking that the user has set everything,
 # and exports the variables to sub scripts
-export CASAREA_DATA=$DATA
+export CASAREA_DATADIR=$DATADIR
 export CASAREA_WORKDIR=$WORKDIR
 export CASAREA_TEST_GRAPHS=$TEST_GRAPHS
 
