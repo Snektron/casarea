@@ -24,9 +24,24 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 # - CASAREA_TEST_GRAPHS: The graphs which the tests should be performed on.
 #   (useful to test with smaller graphs). These graphs are downloaded from
 #   http://data.law.it.unimi.it/.
+# - CASAREA_RUN_LOCAL: Schedule compute jobs locally instead of through prun
+#   1 = run local
 : $CASAREA_DATADIR
 : $CASAREA_WORKDIR
 : $CASAREA_TEST_GRAPHS
+: $CASAREA_RUN_LOCAL
+
+# Schedule a single job and wait for completion
+# Uses prun if required otherwise runs the command locally
+function schedule_single {
+    if [ $CASAREA_RUN_LOCAL -eq 1 ]; then
+        $@
+    else
+        prun -v -np 1 -1 $@
+    fi
+}
+
+export -f schedule_single
 
 # Set java path
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"

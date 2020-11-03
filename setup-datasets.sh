@@ -32,8 +32,7 @@ WEBGRAPH_EXTRACT="$CASAREA_ROOT/webgraph-extract/build/install/webgraph-extract/
 PIDS=""
 for DATASET in $CASAREA_TEST_GRAPHS; do
     if find "$CASAREA_DATADIR/datasets" -name '*[0-9]*[0-9].edges' -exec false {} +; then
-        echo "Generating $DATASET.edges..."
-        prun -v -np 1 -1 \
+        schedule_single \
             $WEBGRAPH_EXTRACT \
                 "$CASAREA_DATADIR/datasets/$DATASET" \
                 "$CASAREA_DATADIR/datasets/$DATASET.edges" \

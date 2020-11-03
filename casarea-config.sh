@@ -9,5 +9,9 @@ export CASAREA_WORKDIR=$(realpath work)
 # graphs). These graphs are downloaded from http://data.law.it.unimi.it/.
 export CASAREA_TEST_GRAPHS="uk-2014-host uk-2014-tpd"
 
+# Whether compute jobs should be run locally or through prun
+export CASAREA_RUN_LOCAL=1
+
 # Not used by casarea.sh but still useful to put here
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
+export PATH="$PATH:$CASAREA_DATADIR/software/gradle/bin/"
