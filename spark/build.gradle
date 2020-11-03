@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.spark:spark-core_2.12:3.0.1'
+    implementation 'org.apache.spark:spark-graphx_2.12:3.0.1'
+}
+
+application {
+    getMainClass().set('space.pythons.spark.LabelPropagation')
+}
