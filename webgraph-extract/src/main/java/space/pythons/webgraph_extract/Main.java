@@ -33,7 +33,7 @@ public class Main {
         }
 
         var graph = BVGraph.load(args[0], 0);
-        System.out.printf("Writing %.2f GB of edges", graph.numArcs() * 4 * 2 / 1e9);
+        System.out.printf("Writing %.2f GB of edges\n", graph.numArcs() * 4 * 2 / 1e9);
         try (var fos = new FileOutputStream(args[1])) {
             var bos = new BufferedOutputStream(fos);
             int total_nodes = graph.numNodes();

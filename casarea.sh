@@ -5,6 +5,13 @@
 # variable is expanded
 set -e -u
 
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <action>"
+    echo "actions:"
+    echo "- setup    download and extract dependencies and datasets"
+    exit 1
+fi
+
 # Get the root of the project in order to find other files
 export CASAREA_ROOT=$(realpath $(dirname $0))
 
@@ -21,12 +28,17 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 : $CASAREA_WORKDIR
 : $CASAREA_TEST_GRAPHS
 
-# Set up the system
-# Download software (skips existing files)
-$CASAREA_ROOT/setup-deps.sh
-
 # Set java path
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
 
-# Download datasets (skips existing files)
-$CASAREA_ROOT/download-datasets.sh
+ACTION=$1
+case $ACTION in
+    setup)
+        echo "Performing setup"
+        $CASAREA_ROOT/setup-deps.sh
+        $CASAREA_ROOT/setup-datasets.sh
+        ;;
+    *)
+        echo "Invalid action '$ACTION'"
+        exit -1;;
+esac

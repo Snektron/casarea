@@ -12,5 +12,5 @@ dependencies {
 }
 
 application {
-    mainClassName = 'space.pythons.webgraph_extract.Main'
+    getMainClass().set('space.pythons.webgraph_extract.Main')
 }
