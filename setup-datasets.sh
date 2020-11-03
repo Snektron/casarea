@@ -10,7 +10,7 @@ for DATASET in $CASAREA_TEST_GRAPHS; do
     for EXT in .graph .properties; do
         FILE="$DATASET$EXT"
         OUT="$CASAREA_DATADIR/datasets/$FILE"
-        wget -nc -q --show-progress -O $OUT "$BASE_URL/$DATASET/$FILE" || true
+        wget -nc -q -O $OUT "$BASE_URL/$DATASET/$FILE" || true
     done
 done
 

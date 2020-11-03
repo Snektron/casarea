@@ -10,7 +10,7 @@ CASAREA_SPARK_URL="https://downloads.apache.org/spark/spark-3.0.1/spark-3.0.1-bi
 if [ ! -d $CASAREA_DATADIR/software/openjdk ]; then
     echo "Setting up Java"
     mkdir -p "$CASAREA_DATADIR/software/openjdk"
-    wget -q --show-progress \
+    wget -q \
         -O "$CASAREA_DATADIR/software/openjdk.tar.gz" \
         $CASAREA_JAVA_URL
     echo "Extracting..."
@@ -24,7 +24,7 @@ fi
 if [ ! -d $CASAREA_DATADIR/software/gradle ]; then
     echo "Setting up Gradle..."
     mkdir -p "$CASAREA_DATADIR/software/"
-    wget -q --show-progress \
+    wget -q \
         -O "$CASAREA_DATADIR/software/gradle.zip" \
         $CASAREA_GRADLE_URL
     echo "Extracting..."
@@ -39,7 +39,7 @@ fi
 if [ ! -d $CASAREA_DATADIR/software/spark ]; then
     echo "Setting up Spark..."
     mkdir -p "$CASAREA_DATADIR/software/spark/"
-    wget -q --show-progress \
+    wget -q \
         -O "$CASAREA_DATADIR/software/spark.tar.gz" \
         $CASAREA_SPARK_URL
     echo "Extracting..."
