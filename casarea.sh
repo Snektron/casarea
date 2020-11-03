@@ -37,7 +37,7 @@ export CASAREA_TEST_GRAPHS=$TEST_GRAPHS
 
 # Set up the system
 # Download software (skips existing files)
-$CASAREA_ROOT/setup-deps.sh
+source $CASAREA_ROOT/setup-deps.sh
 
 # Download datasets (skips existing files)
 $CASAREA_ROOT/download-datasets.sh
