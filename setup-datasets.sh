@@ -24,11 +24,12 @@ WEBGRAPH_EXTRACT="$CASAREA_ROOT/webgraph-extract/build/install/webgraph-extract/
 # Extract the edge list
 PIDS=""
 for DATASET in $CASAREA_TEST_GRAPHS; do
-    if find "$CASAREA_DATADIR/datasets" -name '*[0-9]*[0-9].edges' -exec false {} +; then
+    if [ ! -d "$CASAREA_DATADIR/datasets/$DATASET-edges" ]; then
+        mkdir -p "$CASAREA_DATADIR/datasets/$DATASET-edges"
         schedule-single \
             $WEBGRAPH_EXTRACT \
                 "$CASAREA_DATADIR/datasets/$DATASET" \
-                "$CASAREA_DATADIR/datasets/$DATASET.edges" \
+                "$CASAREA_DATADIR/datasets/$DATASET-edges/$DATASET" \
                 10000000 \
             &
         PIDS="$PIDS $!"

@@ -41,7 +41,7 @@ function schedule-single {
     fi
 }
 
-export -f schedule_single
+export -f schedule-single
 
 # Set java path
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"

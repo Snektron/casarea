@@ -42,7 +42,7 @@ public class Main {
         int total_files = (int) ((graph.numArcs() + edges_per_chunk - 1) / edges_per_chunk);
         System.out.printf("Writing %d edges to %d files\n", graph.numArcs(), total_files);
 
-        try (var edge_writer = new EdgeWriter(args[0], edges_per_chunk, total_files)) {
+        try (var edge_writer = new EdgeWriter(args[1], edges_per_chunk, total_files)) {
             writeEdges(graph, edge_writer);
         }
     }
