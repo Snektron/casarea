@@ -118,12 +118,10 @@ int main(int argc, const char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto g = read_graph(argv[2]);
-
     if (std::strcmp(argv[1], "pagerank") == 0) {
-        measure_time("pagerank", [&](){ pagerank(g, 20, 0.015); });
+        measure_time("pagerank", [&](){ pagerank(read_graph(argv[2]), 20, 0.015); });
     } else if (std::strcmp(argv[1], "label") == 0) {
-        measure_time("label propagation", [&](){ label_propagation(g); });
+        measure_time("label propagation", [&](){ label_propagation(read_graph(argv[2])); });
     } else{
         std::cerr << "Invalid argument '" << argv[1] << "'" << std::endl;
     }
