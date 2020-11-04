@@ -115,7 +115,7 @@ int main(int argc, const char* argv[]) {
 
     if (std::strcmp(argv[1], "pagerank") == 0) {
         pagerank(g, 20, 0.015);
-    } else if (std::strcmp(argv[1], "labelprop") == 0) {
+    } else if (std::strcmp(argv[1], "label") == 0) {
         label_propagation(g);
     } else{
         std::cerr << "Invalid argument '" << argv[1] << "'" << std::endl;
