@@ -25,7 +25,8 @@ WEBGRAPH_EXTRACT="$CASAREA_ROOT/webgraph-extract/build/install/webgraph-extract/
 PIDS=""
 for DATASET in $CASAREA_TEST_GRAPHS; do
     if [ ! -f "$CASAREA_DATADIR/datasets/$DATASET.edges" ]; then
-        schedule-single \
+        ./schedule_single.sh \
+            "" \
             $WEBGRAPH_EXTRACT \
                 "$CASAREA_DATADIR/datasets/$DATASET" \
                 "$CASAREA_DATADIR/datasets/$DATASET.edges" \

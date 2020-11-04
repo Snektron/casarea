@@ -33,31 +33,21 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 : $CASAREA_RUN_LOCAL
 : $CASAREA_REPITITIONS
 
+rm -rf "$CASAREA_WORKDIR"
 mkdir -p "$CASAREA_DATADIR"
 mkdir -p "$CASAREA_WORKDIR"
 
+
 # Schedule a single job and wait for completion
 # Uses prun if required otherwise runs the command locally
-function schedule-single {
-    if [ $CASAREA_RUN_LOCAL -eq 1 ]; then
-        $@
-    else
-        prun -v -np 1 -1 $@
-    fi
-}
-
-export -f schedule-single
 
 function test-single {
     for DATASET in $CASAREA_TEST_GRAPHS; do
         for TASK in pagerank label; do
             for I in $(seq $CASAREA_REPITITIONS); do
-                schedule-single \
-                    /usr/bin/time \
-                        --format="%e" \
-                        --append \
-                        --output="$CASAREA_WORKDIR/$TASK-single-$DATASET.txt" \
-                        "$CASAREA_ROOT/single/single" \
+                ./schedule_single.sh \
+                    "$CASAREA_WORKDIR/$TASK-single-$DATASET.txt" \
+                    "$CASAREA_ROOT/single/single" \
                             $TASK \
                             "$CASAREA_DATADIR/datasets/$DATASET.edges" \
                     &

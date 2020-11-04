@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
-#include <utility>
 #include <fstream>
 #include <algorithm>
 #include <cstdlib>
 #include <cstdint>
 #include <cstring>
+#include <chrono>
 
 using NodeId = uint32_t;
 
@@ -102,6 +102,16 @@ void label_propagation(const Graph& graph) {
     }
 }
 
+template <typename T>
+void measure_time(const std::string& str, T callback) {
+	auto start = std::chrono::steady_clock::now();
+	callback();
+	auto end = std::chrono::steady_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	
+	std::cout << str << ": " << duration.count() << "ms" << std::endl;
+}
+
 int main(int argc, const char* argv[]) {
     if (argc <= 2) {
         std::cout << "Usage: " << argv[0] << " <pagerank | label> <graph.edges>" << std::endl;
@@ -111,9 +121,9 @@ int main(int argc, const char* argv[]) {
     auto g = read_graph(argv[2]);
 
     if (std::strcmp(argv[1], "pagerank") == 0) {
-        pagerank(g, 20, 0.015);
+        measure_time("pagerank", [&](){ pagerank(g, 20, 0.015); });
     } else if (std::strcmp(argv[1], "label") == 0) {
-        label_propagation(g);
+        measure_time("label propagation", [&](){ label_propagation(g); });
     } else{
         std::cerr << "Invalid argument '" << argv[1] << "'" << std::endl;
     }

@@ -7,7 +7,7 @@ export CASAREA_WORKDIR="/var/scratch/ddps2017/casarea/work"
 
 # The graphs which the tests should be performed on. (useful to test with smaller
 # graphs). These graphs are downloaded from http://data.law.it.unimi.it/.
-export CASAREA_TEST_GRAPHS="uk-2007-05 twitter-2010"
+export CASAREA_TEST_GRAPHS="uk-2014-host uk-2014-tpd"
 
 # Whether compute jobs should be run locally or through prun
 export CASAREA_RUN_LOCAL=0
