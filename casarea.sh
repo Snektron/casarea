@@ -26,10 +26,15 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 #   http://data.law.it.unimi.it/.
 # - CASAREA_RUN_LOCAL: Schedule compute jobs locally instead of through prun
 #   1 = run local
+# - CASAREA_REPITITIONS: The number of times tests should be repeated
 : $CASAREA_DATADIR
 : $CASAREA_WORKDIR
 : $CASAREA_TEST_GRAPHS
 : $CASAREA_RUN_LOCAL
+: $CASAREA_REPITITIONS
+
+mkdir -p "$CASAREA_DATADIR"
+mkdir -p "$CASAREA_WORKDIR"
 
 # Schedule a single job and wait for completion
 # Uses prun if required otherwise runs the command locally
@@ -43,6 +48,26 @@ function schedule-single {
 
 export -f schedule-single
 
+function test-single {
+    for DATASET in $CASAREA_TEST_GRAPHS; do
+        for TASK in pagerank label; do
+            for I in $(seq $CASAREA_REPITITIONS); do
+                schedule-single \
+                    /usr/bin/time \
+                        --format="%e" \
+                        --append \
+                        --output="$CASAREA_WORKDIR/$TASK-single-$DATASET.txt" \
+                        "$CASAREA_ROOT/single/single" \
+                            $TASK \
+                            "$CASAREA_DATADIR/datasets/$DATASET.edges" \
+                    &
+            done
+        done
+    done
+
+    wait
+}
+
 # Set java path
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
 
@@ -53,6 +78,9 @@ case $ACTION in
         $CASAREA_ROOT/setup-deps.sh
         $CASAREA_ROOT/setup-subprojects.sh
         $CASAREA_ROOT/setup-datasets.sh
+        ;;
+    test-single)
+        test-single
         ;;
     *)
         echo "Invalid action '$ACTION'"
