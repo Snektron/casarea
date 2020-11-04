@@ -44,7 +44,7 @@ mkdir -p "$CASAREA_WORKDIR"
 function test-single {
     for DATASET in $CASAREA_TEST_GRAPHS; do
         for TASK in pagerank label; do
-            for I in $(seq $CASAREA_REPITITIONS); do
+            for I in $(seq $CASAREA_REPETITIONS); do
                 ./schedule_single.sh \
                     "$CASAREA_WORKDIR/$TASK-single-$DATASET.txt" \
                     "$CASAREA_ROOT/single/single" \
