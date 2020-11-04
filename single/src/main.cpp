@@ -3,9 +3,10 @@
 #include <utility>
 #include <filesystem>
 #include <fstream>
+#include <algorithm>
 #include <cstdlib>
 #include <cstdint>
-#include <algorithm>
+#include <cstring>
 
 using NodeId = uint32_t;
 
@@ -84,14 +85,18 @@ void pagerank(const Graph& graph, size_t iterations, float alpha) {
 }
 
 int main(int argc, const char* argv[]) {
-    if (argc <= 1) {
-        std::cout << "Usage: " << argv[0] << " <edges directory>" << std::endl;
+    if (argc <= 2) {
+        std::cout << "Usage: " << argv[0] << " <pagerank | label> <edge directory>" << std::endl;
         return EXIT_FAILURE;
     }
 
-    auto g = read_graph(argv[1]);
+    auto g = read_graph(argv[2]);
 
-    std::cout << g.edges() << " " << g.nodes() << std::endl;
+    if (std::strcmp(argv[1], "pagerank") == 0) {
+        pagerank(g, 20, 0.015);
+    } else {
+        std::cerr << "Invalid argument '" << argv[1] << "'" << std::endl;
+    }
 
     return EXIT_SUCCESS;
 }
