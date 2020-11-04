@@ -23,8 +23,8 @@ class PageRank {
             }
             return result.iterator();
         }).map(x -> {
-            int source = x[0] | (x[1] >> 8) | (x[2] >> 16) | (x[3] >> 24);
-            int dest = x[4] | (x[5] >> 8) | (x[6] >> 16) | (x[7] >> 24);
+            int source = x[0] | (x[1] << 8) | (x[2] << 16) | (x[3] << 24);
+            int dest = x[4] | (x[5] << 8) | (x[6] << 16) | (x[7] << 24);
             return new Tuple2<Object, Object>((Integer)source, (Integer)dest);
         });
 
