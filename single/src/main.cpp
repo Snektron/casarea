@@ -85,7 +85,7 @@ void pagerank(const Graph& graph, size_t iterations, float alpha) {
 }
 
 void label_propagation(const Graph& graph) {
-    std::vector<node_type> label;
+    std::vector<NodeId> label;
     label.resize(graph.nodes());
     for(size_t i = 0; i < graph.nodes(); ++i) {
         label[i] = i;
@@ -95,7 +95,7 @@ void label_propagation(const Graph& graph) {
     while(!done) {
         done = true;
 
-        graph.map_edges([&](node_type x, node_type y) {
+        graph.map_edges([&](NodeId x, NodeId y) {
             if(label[x] != label[y]) {
                 done = false;
                 label[x] = std::min(label[x], label[y]);
