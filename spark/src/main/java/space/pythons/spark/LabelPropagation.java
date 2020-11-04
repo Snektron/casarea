@@ -14,33 +14,28 @@ class LabelPropagation {
     public static void label(String edge_dir) {
         JavaSparkContext context = new JavaSparkContext();
 
-        //Get the edge list
-        JavaRDD<PortableDataStream> input_map = context.binaryFiles(edge_dir).values();
-        JavaRDD<Tuple2<Object, Object>> edges = input_map.flatMap(x -> {
-            byte[] data_arr = x.toArray();
-            ArrayList<byte[]> result = new ArrayList<byte[]>();
-            for(int i = 0; i < data_arr.length; i += 8) {
-                result.add(Arrays.copyOfRange(data_arr, i, i+8));
-            }
-            return result.iterator();
-        }).map(x -> {
-            int source = x[0] | (x[1] << 8) | (x[2] << 16) | (x[3] << 24);
-            int dest = x[4] | (x[5] << 8) | (x[6] << 16) | (x[7] << 24);
-            return new Tuple2<Object, Object>((Integer)source, (Integer)dest);
-        });
+        var edges = context
+            .binaryRecords(edge_dir, 8)
+            .map(x -> {
+                int source = (x[0] & 0xFF) | ((x[1] & 0xFF) << 8) | ((x[2] & 0xFF) << 16) | ((x[3] & 0xFF) << 24);
+                int dest = (x[4] & 0xFF) | ((x[5] & 0xFF) << 8) | ((x[6] & 0xFF) << 16) | ((x[7] & 0xFF) << 24);
+                return new Edge<Void>(source, dest, null);
+            });
 
-        //Construct the graph
-        Graph<Object, Object> graph = Graph.fromEdgeTuples(JavaRDD.toRDD(edges),
-                                            0,
-                                            Option.empty(),
-                                            StorageLevel.MEMORY_ONLY(),
-                                            StorageLevel.MEMORY_ONLY(),
-                                            scala.reflect.ClassTag$.MODULE$.apply(Integer.class));
+        var graph = Graph.<Void, Void>fromEdges(
+            JavaRDD.toRDD(edges),
+            null,
+            StorageLevel.MEMORY_ONLY(),
+            StorageLevel.MEMORY_ONLY(),
+            scala.reflect.ClassTag$.MODULE$.apply(Void.class),
+            scala.reflect.ClassTag$.MODULE$.apply(Void.class)
+        );
 
-
-        int max_steps = 0;
-
-        org.apache.spark.graphx.lib.LabelPropagation.run(graph, max_steps, scala.reflect.ClassTag$.MODULE$.apply(Object.class));
-        //TODO: label propagation zoeken
+        int max_steps = 1;
+        org.apache.spark.graphx.lib.LabelPropagation.run(
+            graph,
+            max_steps,
+            scala.reflect.ClassTag$.MODULE$.apply(Void.class)
+        );
     }
 }
