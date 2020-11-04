@@ -19,10 +19,14 @@ class PageRank {
                 int source = (x[0] & 0xFF) | ((x[1] & 0xFF) << 8) | ((x[2] & 0xFF) << 16) | ((x[3] & 0xFF) << 24);
                 int dest = (x[4] & 0xFF) | ((x[5] & 0xFF) << 8) | ((x[6] & 0xFF) << 16) | ((x[7] & 0xFF) << 24);
                 return new Edge<Void>(source, dest, null);
-            });
+            })
+            .distinct()
+            .cache();
+
+        System.out.println("==== Partitions: " + edges.getNumPartitions());
 
         var graph = Graph.<Void, Void>fromEdges(
-            JavaRDD.toRDD(edges),
+            edges.rdd(),
             null,
             StorageLevel.MEMORY_ONLY(),
             StorageLevel.MEMORY_ONLY(),
