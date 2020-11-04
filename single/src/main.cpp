@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <utility>
-#include <filesystem>
 #include <fstream>
 #include <algorithm>
 #include <cstdlib>
@@ -42,19 +41,17 @@ class Graph {
 Graph read_graph(const char* path) {
     auto g = Graph();
 
-    for (auto& entry : std::filesystem::directory_iterator(path)) {
-        auto f = std::ifstream(entry.path());
-        if (!f) {
-            std::cerr << "Failed to open " << entry.path() << std::endl;
-            exit(EXIT_FAILURE);
-        }
+    auto f = std::ifstream(path);
+    if (!f) {
+        std::cerr << "Failed to open " << path << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
-        uint8_t x[8];
-        while (f.read(reinterpret_cast<char*>(x), sizeof(x))) {
-            NodeId src = x[0] | (x[1] << 8) | (x[2] << 16) | (x[3] << 24);
-            NodeId dst = x[4] | (x[5] << 8) | (x[6] << 16) | (x[7] << 24);
-            g.add_edge(src, dst);
-        }
+    uint8_t x[8];
+    while (f.read(reinterpret_cast<char*>(x), sizeof(x))) {
+        NodeId src = x[0] | (x[1] << 8) | (x[2] << 16) | (x[3] << 24);
+        NodeId dst = x[4] | (x[5] << 8) | (x[6] << 16) | (x[7] << 24);
+        g.add_edge(src, dst);
     }
 
     return g;
@@ -107,7 +104,7 @@ void label_propagation(const Graph& graph) {
 
 int main(int argc, const char* argv[]) {
     if (argc <= 2) {
-        std::cout << "Usage: " << argv[0] << " <pagerank | label> <edge directory>" << std::endl;
+        std::cout << "Usage: " << argv[0] << " <pagerank | label> <graph.edges>" << std::endl;
         return EXIT_FAILURE;
     }
 

@@ -31,6 +31,7 @@ class LabelPropagation {
             scala.reflect.ClassTag$.MODULE$.apply(Void.class)
         );
 
+        // Run label propagation
         int max_steps = 1;
         org.apache.spark.graphx.lib.LabelPropagation.run(
             graph,

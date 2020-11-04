@@ -3,7 +3,7 @@ package space.pythons.spark;
 public class Main {
     public static void main(String[] args) {
         if (args.length < 2) {
-            System.err.println("Expected arguments <pagerank | label> <edge directory>");
+            System.err.println("Expected arguments <pagerank | label> <graph.edges>");
             System.exit(1);
         }
 
