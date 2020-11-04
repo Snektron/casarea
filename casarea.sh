@@ -3,7 +3,7 @@
 
 # Fail whenever an executed command fails or when a non-existing
 # variable is expanded
-set -e -u
+set -eu
 
 if [ "$#" -lt 1 ]; then
     echo "Usage: $0 <action>"
@@ -33,7 +33,7 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 
 # Schedule a single job and wait for completion
 # Uses prun if required otherwise runs the command locally
-function schedule_single {
+function schedule-single {
     if [ $CASAREA_RUN_LOCAL -eq 1 ]; then
         $@
     else
@@ -51,9 +51,11 @@ case $ACTION in
     setup)
         echo "Performing setup"
         $CASAREA_ROOT/setup-deps.sh
+        $CASAREA_ROOT/setup-subprojects.sh
         $CASAREA_ROOT/setup-datasets.sh
         ;;
     *)
         echo "Invalid action '$ACTION'"
-        exit -1;;
+        exit 1
+        ;;
 esac
