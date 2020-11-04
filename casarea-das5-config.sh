@@ -13,7 +13,7 @@ export CASAREA_TEST_GRAPHS="uk-2007-05 twitter-2010"
 export CASAREA_RUN_LOCAL=0
 
 # Number of times tests should be ran
-export CASAREA_REPITITIONS=5
+export CASAREA_REPETITIONS=5
 
 # Not used by casarea.sh but still useful to put here
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
