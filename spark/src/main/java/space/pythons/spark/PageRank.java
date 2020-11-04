@@ -9,16 +9,12 @@ import org.apache.spark.storage.*;
 import scala.Tuple2;
 import scala.Option;
 
-
 class PageRank {
-    public static void main(String[] args) {
-        if(args.length > 1)
-            return;
-
+    public static void pageRank(String edge_dir) {
         JavaSparkContext context = new JavaSparkContext();
 
         //Get the edge list
-        JavaRDD<PortableDataStream> input_map = context.binaryFiles(args[0]).values();
+        JavaRDD<PortableDataStream> input_map = context.binaryFiles(edge_dir).values();
         JavaRDD<Tuple2<Object, Object>> edges = input_map.flatMap(x -> {
             byte[] data_arr = x.toArray();
             ArrayList<byte[]> result = new ArrayList<byte[]>();

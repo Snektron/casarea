@@ -13,5 +13,5 @@ dependencies {
 }
 
 application {
-    getMainClass().set('space.pythons.spark.LabelPropagation')
+    getMainClass().set('space.pythons.spark.Main')
 }
