@@ -39,6 +39,8 @@ class LabelPropagation {
 
 
         int max_steps = 0;
+
+        org.apache.spark.graphx.lib.LabelPropagation.run(graph, max_steps, scala.reflect.ClassTag$.MODULE$.apply(Object.class));
         //TODO: label propagation zoeken
     }
 }
