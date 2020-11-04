@@ -7,6 +7,8 @@ public class Main {
             System.exit(1);
         }
 
+        long start = System.currentTimeMillis();
+
         switch (args[0]) {
             case "pagerank":
                 PageRank.pageRank(args[1]);
@@ -18,5 +20,8 @@ public class Main {
                 System.err.println("Invalid argument '" + args[0] + "'");
                 System.exit(1);
         }
+
+        long stop = System.currentTimeMillis();
+        System.out.println(args[0] + ": " + (stop - start) + "ms");
     }
 }

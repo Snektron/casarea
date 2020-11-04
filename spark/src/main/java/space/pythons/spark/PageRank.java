@@ -23,7 +23,7 @@ class PageRank {
             .distinct()
             .cache();
 
-        System.out.println("==== Partitions: " + edges.getNumPartitions());
+        System.err.println("==== Partitions: " + edges.getNumPartitions());
 
         var graph = Graph.<Void, Void>fromEdges(
             edges.rdd(),

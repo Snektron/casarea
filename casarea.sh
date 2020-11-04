@@ -26,12 +26,12 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 #   http://data.law.it.unimi.it/.
 # - CASAREA_RUN_LOCAL: Schedule compute jobs locally instead of through prun
 #   1 = run local
-# - CASAREA_REPITITIONS: The number of times tests should be repeated
+# - CASAREA_REPETITIONS: The number of times tests should be repeated
 : $CASAREA_DATADIR
 : $CASAREA_WORKDIR
 : $CASAREA_TEST_GRAPHS
 : $CASAREA_RUN_LOCAL
-: $CASAREA_REPITITIONS
+: $CASAREA_REPETITIONS
 
 rm -rf "$CASAREA_WORKDIR"
 mkdir -p "$CASAREA_DATADIR"
@@ -48,7 +48,7 @@ function test-single {
                 ./schedule_single.sh \
                     "$CASAREA_WORKDIR/$TASK-single-$DATASET.txt" \
                     "$CASAREA_ROOT/single/single" \
-                            $TASK \
+                             $TASK \
                             "$CASAREA_DATADIR/datasets/$DATASET.edges" \
                     &
             done
