@@ -84,6 +84,27 @@ void pagerank(const Graph& graph, size_t iterations, float alpha) {
     }
 }
 
+void label_propagation(const Graph& graph) {
+    std::vector<node_type> label;
+    label.resize(graph.nodes());
+    for(size_t i = 0; i < graph.nodes(); ++i) {
+        label[i] = i;
+    }
+
+    bool done = false;
+    while(!done) {
+        done = true;
+
+        graph.map_edges([&](node_type x, node_type y) {
+            if(label[x] != label[y]) {
+                done = false;
+                label[x] = std::min(label[x], label[y]);
+                label[y] = std::min(label[x], label[y]);
+            }
+        });
+    }
+}
+
 int main(int argc, const char* argv[]) {
     if (argc <= 2) {
         std::cout << "Usage: " << argv[0] << " <pagerank | label> <edge directory>" << std::endl;
@@ -94,7 +115,9 @@ int main(int argc, const char* argv[]) {
 
     if (std::strcmp(argv[1], "pagerank") == 0) {
         pagerank(g, 20, 0.015);
-    } else {
+    } else if (std::strcmp(argv[1], "labelprop") == 0) {
+        label_propagation(g);
+    } else{
         std::cerr << "Invalid argument '" << argv[1] << "'" << std::endl;
     }
 
