@@ -13,10 +13,10 @@ export CASAREA_TEST_GRAPHS="uk-2014-host uk-2014-tpd"
 export CASAREA_RUN_LOCAL=0
 
 # Number of times tests should be ran
-export CASAREA_REPETITIONS=2
+export CASAREA_REPETITIONS=1
 
 # Number of cores the spark tests should be ran on
-export CASAREA_CORE_TESTS="32 64" 
+export CASAREA_CORE_TESTS="32" 
 
 # The timeout for every spark job
 export CASAREA_PRUN_TIMEOUT="00:15:00"

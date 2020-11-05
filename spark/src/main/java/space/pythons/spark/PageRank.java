@@ -10,11 +10,12 @@ import scala.Tuple2;
 import scala.Option;
 
 class PageRank {
-    public static void pageRank(String edge_dir) {
+    public static void pageRank(int cores, String edge_dir) {
         JavaSparkContext context = new JavaSparkContext();
 
         var edges = context
             .binaryRecords(edge_dir, 8)
+            .repartition(cores)
             .map(x -> {
                 int source = (x[0] & 0xFF) | ((x[1] & 0xFF) << 8) | ((x[2] & 0xFF) << 16) | ((x[3] & 0xFF) << 24);
                 int dest = (x[4] & 0xFF) | ((x[5] & 0xFF) << 8) | ((x[6] & 0xFF) << 16) | ((x[7] & 0xFF) << 24);
@@ -26,13 +27,15 @@ class PageRank {
         System.err.println("==== Partitions: " + edges.getNumPartitions());
 
         var graph = Graph.<Void, Void>fromEdges(
-            edges.rdd(),
-            null,
-            StorageLevel.MEMORY_ONLY(),
-            StorageLevel.MEMORY_ONLY(),
-            scala.reflect.ClassTag$.MODULE$.apply(Void.class),
-            scala.reflect.ClassTag$.MODULE$.apply(Void.class)
-        ).cache();
+                edges.rdd(),
+                null,
+                StorageLevel.MEMORY_ONLY(),
+                StorageLevel.MEMORY_ONLY(),
+                scala.reflect.ClassTag$.MODULE$.apply(Void.class),
+                scala.reflect.ClassTag$.MODULE$.apply(Void.class)
+            )
+            .partitionBy(new PartitionStrategy$EdgePartition1D$(), cores)
+            .cache();
 
         // Run pagerank
         int num_iter = 20;

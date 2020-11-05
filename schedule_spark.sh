@@ -77,8 +77,9 @@ ssh $MASTER \
         --executor-memory 60G \
         --total-executor-cores $N_CORES \
         "$CASAREA_ROOT/spark/build/install/spark/lib/spark.jar" \
-        $TASK \
-        "$CASAREA_DATADIR/datasets/$DATASET.edges" \
+            $TASK \
+            "$CASAREA_DATADIR/datasets/$DATASET.edges" \
+            $N_CORES \
     >> "$CASAREA_WORKDIR/$TASK-spark-$N_CORES-$DATASET.txt" \
     2>> "$CASAREA_WORKDIR/$TASK-spark-$N_CORES-$1-$DATASET-stderr.txt"
 
