@@ -62,8 +62,8 @@ void pagerank(const Graph& graph, size_t iterations, float alpha) {
     a.resize(graph.nodes(), 0.0f);
     std::vector<float> b;
     b.resize(graph.nodes(), 0.0f);
-    std::vector<NodeId> d;
-    d.resize(graph.nodes(), 0);
+    std::vector<float> d;
+    d.resize(graph.nodes(), 0.0f);
 
     graph.map_edges([&](NodeId x, NodeId y) {
         d[x] += 1;
