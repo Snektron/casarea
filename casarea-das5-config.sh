@@ -7,7 +7,7 @@ export CASAREA_WORKDIR="/var/scratch/ddps2017/casarea/work"
 
 # The graphs which the tests should be performed on. (useful to test with smaller
 # graphs). These graphs are downloaded from http://data.law.it.unimi.it/.
-export CASAREA_TEST_GRAPHS="uk-2014-tpd uk-2014-host"
+export CASAREA_TEST_GRAPHS="cnr-2000"
 
 # Whether compute jobs should be run locally or through prun
 export CASAREA_RUN_LOCAL=0
@@ -16,7 +16,7 @@ export CASAREA_RUN_LOCAL=0
 export CASAREA_REPETITIONS=5
 
 # Number of cores the spark tests should be ran on
-export CASAREA_CORE_TESTS="128" 
+export CASAREA_CORE_TESTS="8 16 32" 
 
 # The timeout for every spark job
 export CASAREA_PRUN_TIMEOUT="00:30:00"
