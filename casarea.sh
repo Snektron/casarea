@@ -8,7 +8,9 @@ set -eu
 if [ "$#" -lt 1 ]; then
     echo "Usage: $0 <action>"
     echo "actions:"
-    echo "- setup    download and extract dependencies and datasets"
+    echo "- setup          Download and extract dependencies and datasets."
+    echo "- test-single    Perform single-core benchmarks."
+    echo "- test-spark     Perform spark benchmarks."
     exit 1
 fi
 
@@ -27,11 +29,14 @@ export CASAREA_ROOT=$(realpath $(dirname $0))
 # - CASAREA_RUN_LOCAL: Schedule compute jobs locally instead of through prun
 #   1 = run local
 # - CASAREA_REPETITIONS: The number of times tests should be repeated
+# - CASAREA_CORE_TESTS: Numbers of cores that tests should be performed on
+# - CASAREA_PRUN_TUNEOUT: The timeout for every spark job
 : $CASAREA_DATADIR
 : $CASAREA_WORKDIR
 : $CASAREA_TEST_GRAPHS
 : $CASAREA_RUN_LOCAL
 : $CASAREA_REPETITIONS
+: $CASAREA_CORE_TESTS
 
 rm -rf "$CASAREA_WORKDIR"
 mkdir -p "$CASAREA_DATADIR"
@@ -45,12 +50,31 @@ function test-single {
     for DATASET in $CASAREA_TEST_GRAPHS; do
         for TASK in pagerank label; do
             for I in $(seq $CASAREA_REPETITIONS); do
-                ./schedule_single.sh \
+                "$CASAREA_ROOT/schedule_single.sh" \
                     "$CASAREA_WORKDIR/$TASK-single-$DATASET.txt" \
                     "$CASAREA_ROOT/single/single" \
                              $TASK \
                             "$CASAREA_DATADIR/datasets/$DATASET.edges" \
                     &
+            done
+        done
+    done
+
+    wait
+}
+
+function test-spark {
+    for DATASET in $CASAREA_TEST_GRAPHS; do
+        for TASK in pagerank label; do
+            for N_CORES in $CASAREA_CORE_TESTS; do
+                for I in $(seq $CASAREA_REPETITIONS); do
+                    "$CASAREA_ROOT/schedule_spark.sh" \
+                        $N_CORES \
+                        $CASAREA_PRUN_TIMEOUT \
+                        $TASK \
+                        $DATASET \
+                        &
+                done
             done
         done
     done
@@ -71,6 +95,9 @@ case $ACTION in
         ;;
     test-single)
         test-single
+        ;;
+    test-spark)
+        test-spark
         ;;
     *)
         echo "Invalid action '$ACTION'"

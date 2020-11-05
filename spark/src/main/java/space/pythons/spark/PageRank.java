@@ -32,7 +32,7 @@ class PageRank {
             StorageLevel.MEMORY_ONLY(),
             scala.reflect.ClassTag$.MODULE$.apply(Void.class),
             scala.reflect.ClassTag$.MODULE$.apply(Void.class)
-        );
+        ).cache();
 
         // Run pagerank
         int num_iter = 20;

@@ -15,6 +15,12 @@ export CASAREA_RUN_LOCAL=1
 # Number of times tests should be repeated
 export CASAREA_REPETITIONS=5
 
+# Number of cores the spark tests should be ran on
+export CASAREA_CORE_TESTS="" 
+
+# The timeout for every spark job
+export CASAREA_PRUN_TIMEOUT="00:15:00"
+
 # Not used by casarea.sh but still useful to put here
 export JAVA_HOME="$CASAREA_DATADIR/software/openjdk"
 export PATH="$PATH:$CASAREA_DATADIR/software/gradle/bin/"
