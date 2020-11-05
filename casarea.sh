@@ -69,6 +69,7 @@ function test-spark {
             for N_CORES in $CASAREA_CORE_TESTS; do
                 for I in $(seq $CASAREA_REPETITIONS); do
                     "$CASAREA_ROOT/schedule_spark.sh" \
+                        $I \
                         $N_CORES \
                         $CASAREA_PRUN_TIMEOUT \
                         $TASK \
