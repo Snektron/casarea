@@ -1,0 +1,5 @@
+label propagation: 3263ms
+label propagation: 3271ms
+label propagation: 3220ms
+label propagation: 3366ms
+label propagation: 3412ms
